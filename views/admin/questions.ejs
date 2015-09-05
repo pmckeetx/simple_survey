@@ -135,7 +135,9 @@
                         {{#each answers}}
                             <li>
                             {{ this.answerText }}
-                            <span class="glyphicon glyphicon-remove-circle remove-answer-text" title="Remove Answer" data-question-id="{{ ../id }}" data-answer-text-id="{{ this.id }}" aria-hidden="true"></span>
+                            <a href="" title="Remove Answer" data-question-id="{{ ../id }}" data-answer-text-id="{{ this.id }}">
+                                <span class="glyphicon glyphicon-remove-circle remove-answer-text"  aria-hidden="true"></span>
+                            </a>
                             </li>
                         {{/each}}
                         </ul>
@@ -181,8 +183,7 @@
         {{/each}}
         {{#if grandTotal}}
         <tr class="total-line">
-            <td>Total Presented</td>
-            <td></td> class="text-right"
+            <td colspan="2">Total Presented</td>
             <td class="text-right">{{grandTotal}}</td>
         </tr>
         {{/if}}
