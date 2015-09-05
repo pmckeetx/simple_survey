@@ -1,0 +1,94 @@
+
+@media (max-width: 767px) {
+    .extra-side-grutter {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+body {
+    font-family: 'Neue Helvetica W01','Helvetica Neue','Neue Helvetica 2';
+    color: #37404a;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.display-inline {
+    display: inline;
+}
+
+.container {
+    margin-bottom: 50px;
+}
+
+.admin-questions .container-row {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.admin-questions .inline-input {
+    width: 100% !important;
+}
+
+.admin-questions .question-list {
+    margin-bottom: 20px;
+}
+
+.admin-questions .question-list li {
+    margin-bottom: 10px;
+}
+
+.admin-questions .question-text {
+    font-size: 1.25em;
+}
+
+.admin-questions .question-details {
+    margin-left: 16px;
+}
+
+.admin-questions .answer-wrapper {
+    margin-top: 0px;
+}
+
+.admin-questions .answer-wrapper h4 {
+    margin-top: 3px;
+    margin-bottom: 0px;
+}
+
+.admin-questions .answer-list {
+    padding-left: 25px;
+    margin-bottom: 15px;
+}
+.admin-questions .answer-list li {
+    margin-bottom: 0px;
+}
+
+.admin-questions .stats-table .total-line {
+    border-top: 2px solid black;
+}
+
+.admin-questions .new-answer-text {
+    
+}
+
+.question {
+    padding: 9px 14px;
+    margin-bottom: 14px;
+    background-color: #f7f7f9;
+    border: 1px solid #e1e1e8;
+    border-radius: 4px;    
+
+    width: 90%;
+    max-width: 550px;
+}
+
+.question p {
+    font-size: 1.5em;
+}
+
+.question .radio {
+    margin-left: 25px;
+    font-size: 1.25em;
+}

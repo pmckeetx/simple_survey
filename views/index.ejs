@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Simple Survey</title>
+
+    <!-- Bootstrap -->
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href='/stylesheets/style.css' rel='stylesheet'/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Simple Survey</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="xs-col-12">
+                <!-- BEGIN CONTENT -->
+
+                <div class="center-block question" >
+                    <% if( errors ) { %>
+                        <div class="alert alert-danger" role="alert">
+                            <span><%= errors[0].msg %></span>
+                        </div>
+                    <% } %>
+
+                    <% if( question ) { %>
+                        <form action="/save" method="post">
+                            <input type="hidden" name="questionId" value="<%= question.id %>" />
+                        <p><%= question.questionText %></p>
+                        <% for( var i = 0; i < question.Answers.length; i++ ) { %>
+                            <% var answer = question.Answers[i]; %>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="answer" value="<%= answer.id %>"> <%= answer.answerText %>
+                            </label>
+                        </div>
+                        <% } %>
+                            <button type="submit" class="btn btn-primary center-block">Submit your answer</button>
+                        </form>
+                    <% } else { %>
+                        <p>Thank you! You have answer all our questions.</p>
+                    <% } %>
+                    
+                </div>
+
+                <!-- END CONTENT -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

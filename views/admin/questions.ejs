@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Simple Survey</title>
+
+    <!-- Bootstrap -->
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/stylesheets/style.css" rel="stylesheet"/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Simple Survey</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container extra-side-grutter">
+        <div class="row">
+            <div class="xs-col-12">
+                <ol class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/admin">Admin</a></li>
+                    <li class="active">Questions</li>
+                </ol>
+            </div>
+        </div>
+        <div class="row container-row admin-questions">
+            <div class="xs-col-12">
+                <!-- BEGIN CONTENT -->
+
+                <h2>Survey Questions</h2>
+
+                <div id="error-wrapper"></div>
+
+                <ul class="list-unstyled question-list">
+                    <li>Loading ... </li>
+                </ul>
+
+                <div class="form">
+                  <div class="form-group">
+                    <input type="text" class="form-control inline-input new-question-text" id="newQuestionText" placeholder="Enter the text of the question.">
+                  </div>
+                  <button class="btn btn-primary btn-sm" id="addNewQuestionBtn" >Create a question</button>
+                </div>
+                <div>
+                    <p id="newQuestionError"></p>
+                </div>
+
+                <!-- END CONTENT -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.data = {
+            <%  for( var i = 0; i < questions.length; i++ ) {
+                var q = questions[ i ]; %>
+            '<%= q.id %>': {
+                'questionText': '<%= q.questionText %>',
+                'answers': [
+                    <%  for( var j = 0; j < q.Answers.length; j++ ) {
+                        var answer = q.Answers[ j ]; %>
+                    {  
+                        'id': '<%= answer.id %>',
+                        'answerText': '<%= answer.answerText %>'
+                    },
+                    <%  } %>
+                ],
+                'display': false
+            },
+            <%  } %>
+        }
+    </script>
+    <!-- 
+      --    TEMPLATES
+      -->
+    <script id="error-template" type="text/x-handlebars-template">
+        <div class="alert alert-danger" role="alert">
+            <ul class="list-unstyled">
+                <li>{{ error.msg }}</li>
+            </ul>
+        </div>
+    </script>
+
+    <script id="question-template" type="text/x-handlebars-template">
+        <li id="question{{ id }}" class="well well-sm">
+            <a class="view-question" data-question-id="{{ id }}" href="" title="View Answers">
+                {{#if display}}
+                <span id="triangle-right-{{ id }}" class="glyphicon glyphicon-triangle-right" style="display: none;" aria-hidden="true"></span>
+                <span id="triangle-down-{{ id }}" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                {{else}}
+                <span id="triangle-right-{{ id }}" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                <span id="triangle-down-{{ id }}" class="glyphicon glyphicon-triangle-bottom" style="display: none;" aria-hidden="true"></span>
+                {{/if}}
+            </a>
+            <span class="question-text view-question cursor-pointer" data-question-id="{{ id }}">{{ questionText }}</span>
+            <a class="view-update-question" data-question-id="{{ id }}" href="" title="Edit Question">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>
+            <a class="delete-question" data-question-id="{{ id }}" href="" title="Delete Question">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </a>
+            <!--
+            <a class="stats-question" data-question-id="{{ id }}" href="" title="View Stats">
+                <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+            </a>
+            -->
+            {{#if display}}
+            <div class="question-details" id="question-details-{{ id }}" style="display: {{ display }}" data-question-id="{{ id }}">
+            {{else}}
+            <div class="question-details" id="question-details-{{ id }}" style="display: none" data-question-id="{{ id }}">
+            {{/if}}
+                <div id="updateQuestionTextWrapper{{ id }}"class="update-question-text-wrapper" style="display: none;">
+                    <input type="text" class="form-control inline-input input-sm display-inline question-text-input" data-question-id="{{ id }}" id="questionText{{ id }}" value="{{ questionText }}">
+                    <button class="btn btn-default btn-sm update-question-text" data-question-id="{{ id }}">Update</button>
+                </div>
+                <div id="answers{{ id }} row" class="row answer-wrapper">
+                    <div class="col-xs-12 col-sm-6">
+                        <h4>Answers</h4>
+                        {{#if answers}}
+                        <ul class="answer-list">
+                        {{#each answers}}
+                            <li>
+                            {{ this.answerText }}
+                            <span class="glyphicon glyphicon-remove-circle remove-answer-text" title="Remove Answer" data-question-id="{{ ../id }}" data-answer-text-id="{{ this.id }}" aria-hidden="true"></span>
+                            </li>
+                        {{/each}}
+                        </ul>
+
+                        {{else}}
+                        <span>There are no answers for this question.</span>
+                        {{/if}}
+                        <div>
+                            <input type="text" class="form-control inline-input input-sm display-inline new-answer-text-input" id="newAnswerText{{ id }}" placeholder="Enter the text of the answer." data-question-id="{{ id }}" />
+                            <div class="text-right">
+                            <button class="btn btn-default btn-sm new-answer-text text-right" data-question-id="{{ id }}">Create an answer</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <h4>Stats</h4>
+                        <table class="table table-condensed stats-table">
+                            <thead>
+                                <th>Answer</th>
+                                <th class="text-right">% Answered</th>
+                                <th class="text-right">Count Selected</th>
+                            </thead>
+                            <tbody id="stats-tbody-{{ id }}"> 
+                                <tr>
+                                    <td>Loading...</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </script>
+
+    <script id="question-stats-template" type="text/x-handlebars-template">
+        {{#each answers}}
+        <tr>
+            <td>{{Answer.answerText}}</td>
+            <td class="text-right">{{percent}}%</td>
+            <td class="text-right">{{total}}</td>
+        </tr>
+        {{/each}}
+        {{#if grandTotal}}
+        <tr class="total-line">
+            <td>Total Presented</td>
+            <td></td> class="text-right"
+            <td class="text-right">{{grandTotal}}</td>
+        </tr>
+        {{/if}}
+    </script
+
+    <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- 3rd Party -->
+    <script src="/handlebars/dist/handlebars.min.js"></script> 
+
+    <script src="/scripts/admin/simplesurveyapi.js"></script>
+    <script src="/scripts/admin/questions.js"></script>
+</body>
+</html>
