@@ -98,7 +98,6 @@ router.post( '/question/:question_id/answer', function( req, res, next ) {
 //  Delete Answer
 //
 router.delete( '/question/:question_id/answer/:answer_id', function( req, res, next ) {
-    console.log( 'here' );
 
     req.check( 'answer_id', 'Question id is required.' ).notEmpty().isInt();
 
@@ -106,8 +105,6 @@ router.delete( '/question/:question_id/answer/:answer_id', function( req, res, n
     if ( errors ) {
         res.json( { errors: errors } );
     } else {
-
-        console.log( 'and here' );
         models.Answer.destroy( { 
             where: {
                 id: req.params.answer_id

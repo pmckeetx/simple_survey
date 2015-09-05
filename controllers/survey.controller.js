@@ -161,9 +161,7 @@ router.post( '/save', function ( req, res, next ) {
         } ).then( function( question ) {
             res.render( 'index', { question: question, errors: errors } );
         });
-    } else {
-        console.log( '*** Saving answer for: '+ guestIP );
-        
+    } else {        
         models.SurveyAnswer.create({
             guestIP: guestIP,
             QuestionId: questionId,
