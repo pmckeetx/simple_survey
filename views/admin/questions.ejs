@@ -135,8 +135,8 @@
                         {{#each answers}}
                             <li>
                             {{ this.answerText }}
-                            <a href="" title="Remove Answer" data-question-id="{{ ../id }}" data-answer-text-id="{{ this.id }}">
-                                <span class="glyphicon glyphicon-remove-circle remove-answer-text"  aria-hidden="true"></span>
+                            <a href="" class="remove-answer-text" title="Remove Answer" data-question-id="{{ ../id }}" data-answer-text-id="{{ this.id }}">
+                                <span class="glyphicon glyphicon-remove-circle"  aria-hidden="true"></span>
                             </a>
                             </li>
                         {{/each}}

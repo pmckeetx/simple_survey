@@ -160,6 +160,12 @@
             var questionId = $( this ).data( 'questionId' );
 
             api.deleteQuestion( questionId, function( err, resultQuestionId ) {
+                if( err || !resultQuestionId ) {
+                    err = 'An error occured on the server please try again.';
+                    renderError( err );
+                    return;
+                }
+                
                 delete questionsHash[ resultQuestionId ];
                 renderQuestions();
             } );
@@ -226,7 +232,8 @@
             var answerTextId = $( this ).data( 'answerTextId' );
 
             api.deleteAnswerToQuestion( questionId, answerTextId, function( err, data ) {
-                if( err ) {
+                if( err || !data ) {
+                    err = 'An error occured on the server please try again.';
                     renderError( err );
                     return;
                 }
